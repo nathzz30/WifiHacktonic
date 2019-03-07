@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList <String> arrayList = new ArrayList<>();
     private ArrayList <String> mac = new ArrayList<>();
     private ArrayAdapter adapter;
+    private String macAddress = "";
+    private String pass = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +63,16 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener
         ((parent, view, position, id) ->
         {
-               tv2.setText("La MAC Address de la red " + listView.getItemAtPosition(position) + "es: " + mac.get(position));
+               //tv2.setText("La MAC Address de la red " + listView.getItemAtPosition(position) + "es: " + mac.get(position));
+               Toast.makeText(this, "Trying to Connect it ...",Toast.LENGTH_SHORT).show();
+               macAddress = mac.get(position).toString();
+               macAddress = macAddress.replace(":", "");
+               pass = macAddress.substring(4);
+               //tv2.setText("La MAC Address de " + listView.getItemAtPosition(position) + " es: " + mac.get(position) + "\n Pass es: " + pass);
+               connectToWifi(listView.getItemAtPosition(position).toString(), pass.toString());
+
         });
-        //scanwifi();
-        //pa q sirva el commit2
+        scanwifi();
     }
 
     private void scanwifi ()
@@ -89,5 +98,22 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private void connectToWifi(final String SSID, final String pass)
+    {
+        if (!wifiManager.isWifiEnabled())
+        {
+            wifiManager.setWifiEnabled(true);
+        }
+
+        WifiConfiguration conf = new WifiConfiguration();
+        conf.SSID = String.format("\"%s\"", SSID);
+        conf.preSharedKey = String.format("\"%s\"",pass);
+
+        int netId = wifiManager.addNetwork(conf);
+        wifiManager.disconnect();
+        wifiManager.enableNetwork(netId,true);
+        wifiManager.reconnect();
+        Toast.makeText(this, "Conexion success ...",Toast.LENGTH_SHORT).show();
+    }
 
 }
