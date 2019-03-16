@@ -9,7 +9,7 @@
     <ListView
         android:id="@+id/wifilist"
         android:layout_width="match_parent"
-        android:layout_height="351dp"
+        android:layout_height="347dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -22,7 +22,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.43" />
+        app:layout_constraintVertical_bias="0.371" />
 
     <Button
         android:id="@+id/scanBtn"
@@ -47,7 +47,7 @@
 
     <TextView
         android:id="@+id/tv2"
-        android:layout_width="366dp"
+        android:layout_width="348dp"
         android:layout_height="62dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
@@ -58,7 +58,6 @@
         android:text="Esta aplicacion funciona con aquellas redes llamadas \n *Internet Movil...* para conectarse solo debe seleccionarla."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />

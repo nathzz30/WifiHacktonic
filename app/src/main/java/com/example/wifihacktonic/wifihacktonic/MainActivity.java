@@ -11,6 +11,7 @@ import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -71,64 +72,28 @@ public class MainActivity extends AppCompatActivity {
         {
                tv2.setText("La Red a la que se esta tratando de conectar es: " + listView.getItemAtPosition(position));
                Toast.makeText(this, "Trying to Connect it ...",Toast.LENGTH_SHORT).show();
-               macAddress = mac.get(position).toString();
+               macAddress = mac.get(position);
                macAddress = macAddress.replace(":", "");
                pass = macAddress.substring(4);
-               connectToWifi(listView.getItemAtPosition(position).toString(), pass.toString());
+               connectToWifi(listView.getItemAtPosition(position).toString(), pass);
+            try {
+                Thread.sleep(800);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-              isConnection();
-//            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-//            if (wifiInfo.getSSID() != listView.getItemAtPosition(position) && wifiInfo.getNetworkId() == -1)
-//            {
-//
-//                Toast.makeText(this, "Connexion has Failed ...",Toast.LENGTH_LONG).show();
-//
-//            }
-//            else
-//            {
-//                Toast.makeText(this, "Connexion success ...",Toast.LENGTH_LONG).show();
-//
-//            }
-
-
+            if (wifiManager.getConnectionInfo().getNetworkId() != -1)
+            {
+                Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
+            }
+            else
+                if (wifiManager.getConnectionInfo().getNetworkId() == -1)
+                {
+                    Toast.makeText(this, "Not Support it.", Toast.LENGTH_LONG).show();
+                }
         });
         scanwifi();
-    }
 
-    private void isConnection ()
-    {
-//        ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-//        NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-        SupplicantState supState;
-        wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        supState = wifiInfo.getSupplicantState();
-
-        while (supState.toString() == "ASSOCIATING" )
-        {
-
-
-        }
-
-        if (supState.toString() == "ASSOCIATED" )
-        {
-            Toast.makeText(this, "Connexion has suscced ...",Toast.LENGTH_LONG).show();
-        }
-
-        if (supState.toString() == "UNINITIALIZED" )
-        {
-            Toast.makeText(this, "Connexion has Failed ...",Toast.LENGTH_LONG).show();
-        }
-
-//        if (wifi.isConnected())
-//        {
-//            Toast.makeText(this, "Connexion has suscced ...",Toast.LENGTH_LONG).show();
-//        }
-//        else
-//        {
-//            Toast.makeText(this, "Connexion has Failed ...",Toast.LENGTH_LONG).show();
-//        }
     }
 
     private void scanwifi ()
